@@ -24,6 +24,26 @@ object Introspectable {
     else
       l.head.flatMap( v => crossProduct(l.tail).map( p => v :: p))
   }
+
+  def create(s: String, args: Any*): AnyRef = {
+    val c = Class.forName(s)
+    val selfExtracted = args.map({
+      case o: Introspectable => o.self
+      case o => o
+    })
+
+    val possibles = Introspectable.possiblePrototypes(selfExtracted:_*)
+    val prototype = possibles
+      .find( proto => try { c.getConstructor(proto:_*); true } catch { case e: Exception => false })
+    val constructor = c.getConstructor(prototype.get:_*)
+
+    val newArgs: Seq[AnyRef] = selfExtracted.map({
+      //Every cases actually goes into AnyRef because of implicit boxing
+      case o: AnyRef => o
+      case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
+    })
+    constructor.newInstance(newArgs:_*).asInstanceOf[AnyRef]
+  }
 }
 
 class Introspectable(val self: AnyRef) extends Dynamic {

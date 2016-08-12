@@ -4,6 +4,11 @@ interface TotoInterface {
 public class TestClass implements TotoInterface {
 	public String totoStr = "titi";
 
+	public TestClass() { }
+	public TestClass(int t) throws Exception {
+		if(t != 3) throw new Exception();
+	}
+
 	public void totoFnc2(boolean titi) {
 		System.out.println("totoFnc2 success");
 	}
