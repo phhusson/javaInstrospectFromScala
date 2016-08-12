@@ -24,7 +24,11 @@ class Introspectable(val self: AnyRef) extends Dynamic {
   }
 
   def applyDynamic(fnc: String)(args: Any*) = {
-    val possibleArgsType: List[List[Class[_]]] = args.toList.map({
+    val selfExtracted = args.map({
+      case o: Introspectable => o.self
+      case o => o
+    })
+    val possibleArgsType: List[List[Class[_]]] = selfExtracted.toList.map({
       //TODO: Other types
       case o: Integer => List(classOf[Int], classOf[java.lang.Integer]);
       case o: Boolean => List(classOf[Boolean], classOf[java.lang.Boolean]);
@@ -41,7 +45,7 @@ class Introspectable(val self: AnyRef) extends Dynamic {
     val prototype = possiblePrototypes.find( proto => try { c.getMethod(fnc, proto:_*); true } catch { case e: Exception => false })
     val method = c.getMethod(fnc, prototype.get:_*)
 
-    val newArgs: Seq[AnyRef] = args.map({
+    val newArgs: Seq[AnyRef] = selfExtracted.map({
       //Every cases actually goes into AnyRef because of implicit boxing
       case o: AnyRef => o
       case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
