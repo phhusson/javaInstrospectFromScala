@@ -11,3 +11,7 @@ Or a more useful one:
 val devicePolicyManager = context.getSystemService(Context.DEVICE_POLICY_MANAGER).asInstanceOf[DevicePolicyManager]
 val mng = new Introspectable(devicePolicyManager)
 mng.setActiveAdmin(new ComponentName("android.deviceadmin.cts", "android.deviceadmin.cts.CtsDeviceAdminReceiver2"), true)
+
+Or, with a constructor:
+val u = new Introspectable(Introspectable.create("com.android.internal.widget.LockPatternUtils", this))
+u.clearLock(false)
