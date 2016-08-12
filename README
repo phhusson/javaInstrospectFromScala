@@ -4,7 +4,8 @@ Take an object with non public methods/fields, create new Introspectable(<this o
 For example:
 
 val obj: AnyRef = new java.util.HashMap[String, String]
-obj.put("hello", "tata")
+val o = new Introspectable(obj)
+o.put("hello", "tata")
 
 Or a more useful one:
 val devicePolicyManager = context.getSystemService(Context.DEVICE_POLICY_MANAGER).asInstanceOf[DevicePolicyManager]
