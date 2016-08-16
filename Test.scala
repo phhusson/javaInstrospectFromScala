@@ -1,3 +1,5 @@
+package me.phh.introspect
+
 object Test {
   def runTestOn(t: AnyRef) {
     val o = new Introspectable(t)
@@ -20,10 +22,10 @@ object Test {
     val t = new TestClass()
     runTestOn(t)
 
-    val t2 = Introspectable.create("TestClass")
+    val t2 = Introspectable.create("me.phh.introspect.TestClass")
     runTestOn(t2)
 
-    val t3 = Introspectable.create("TestClass", 3)
+    val t3 = Introspectable.create("me.phh.introspect.TestClass", 3)
     runTestOn(t3)
 
     try {

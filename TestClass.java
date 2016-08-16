@@ -1,3 +1,5 @@
+package me.phh.introspect;
+
 interface TotoInterface {
 	public int val();
 };

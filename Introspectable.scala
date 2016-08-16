@@ -1,3 +1,5 @@
+package me.phh.introspect
+
 import scala.language.dynamics
 
 object Introspectable {
