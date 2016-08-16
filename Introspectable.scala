@@ -70,13 +70,18 @@ class Introspectable(val self: AnyRef) extends Dynamic {
     val possibles = Introspectable.possiblePrototypes(selfExtracted:_*)
     val prototype = possibles
       .find( proto => try { c.getMethod(fnc, proto:_*); true } catch { case e: Exception => false })
-    val method = c.getMethod(fnc, prototype.get:_*)
+    prototype match {
+      case None => throw new java.lang.NoSuchMethodException(); null
+      case Some(proto) => {
+        val method = c.getMethod(fnc, prototype.get:_*)
 
-    val newArgs: Seq[AnyRef] = selfExtracted.map({
-      //Every cases actually goes into AnyRef because of implicit boxing
-      case o: AnyRef => o
-      case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
-    })
-    method.invoke(self, newArgs:_*)
+        val newArgs: Seq[AnyRef] = selfExtracted.map({
+          //Every cases actually goes into AnyRef because of implicit boxing
+          case o: AnyRef => o
+          case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
+        })
+        method.invoke(self, newArgs:_*)
+      }
+    }
   }
 }

@@ -25,5 +25,12 @@ object Test {
 
     val t3 = Introspectable.create("TestClass", 3)
     runTestOn(t3)
+
+    try {
+      new Introspectable(t3).thisfunctiondoesntexist()
+      throw new Exception()
+    } catch {
+      case e: java.lang.NoSuchMethodException => ()
+    }
   }
 }
