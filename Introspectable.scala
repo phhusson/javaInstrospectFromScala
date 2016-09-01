@@ -7,6 +7,12 @@ object Introspectable {
     //TODO: Other types
     case o: Integer => List(classOf[Int], classOf[java.lang.Integer]);
     case o: Boolean => List(classOf[Boolean], classOf[java.lang.Boolean]);
+    case o: Long => List(classOf[Long], classOf[java.lang.Long]);
+    case o: Byte => List(classOf[Byte], classOf[java.lang.Byte]);
+    case o: Short => List(classOf[Short], classOf[java.lang.Short]);
+    case o: Float => List(classOf[Float], classOf[java.lang.Float]);
+    case o: Double => List(classOf[Double], classOf[java.lang.Double]);
+    //case o: Char => List(classOf[Char], classOf[java.lang.Char]); // This boxed type doesn't exist...
     case o: AnyRef => {
       //Always list first children-most type, then parent type, then interfaces
       val cl = o.getClass
