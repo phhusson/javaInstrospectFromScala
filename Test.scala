@@ -28,6 +28,8 @@ object Test {
     val t3 = Introspectable.create("me.phh.introspect.TestClass", 3)
     runTestOn(t3)
 
+    if(new Introspectable(Class.forName("me.phh.introspect.TestClass")).staticFnc1() != 4) throw new Exception()
+
     try {
       new Introspectable(t3).thisfunctiondoesntexist()
       throw new Exception()

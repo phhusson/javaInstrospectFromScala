@@ -27,4 +27,8 @@ public class TestClass implements TotoInterface {
 	public int val() {
 		return 0;
 	}
+
+	public static int staticFnc1() {
+		return 4;
+	}
 } 

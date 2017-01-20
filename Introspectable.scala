@@ -55,7 +55,17 @@ object Introspectable {
 }
 
 class Introspectable(val self: AnyRef) extends Dynamic {
-  val c = self.getClass
+  val isClass = self.isInstanceOf[Class[_]]
+  val instance = self match {
+    case _: Class[_] => null
+    case _ => self
+  }
+  val c =
+    self match {
+      case s: Class[_] => s
+      case _ => self.getClass
+    }
+
   def field(s: String) = {
     val f = c.getField(s)
     f.setAccessible(true)
@@ -63,11 +73,11 @@ class Introspectable(val self: AnyRef) extends Dynamic {
   }
 
   def selectDynamic(s: String) = {
-    field(s).get(self)
+    field(s).get(instance)
   }
 
   def updateDynamic(s: String)(v: AnyRef) {
-    field(s).set(self, v)
+    field(s).set(instance, v)
   }
 
   def applyDynamic(fnc: String)(args: Any*) = {
@@ -88,7 +98,7 @@ class Introspectable(val self: AnyRef) extends Dynamic {
           case o: AnyRef => o
           case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
         })
-        method.invoke(self, newArgs:_*)
+        method.invoke(instance, newArgs:_*)
       }
     }
   }

@@ -15,3 +15,7 @@ mng.setActiveAdmin(new ComponentName("android.deviceadmin.cts", "android.devicea
 Or, with a constructor:
 val u = new Introspectable(Introspectable.create("com.android.internal.widget.LockPatternUtils", this))
 u.clearLock(false)
+
+If you want to call a static function, create an Introspectable and pass a Class to it like this:
+val u = new Introspectable(Class.forName("me.phh.introspect.TestClass"))
+val res = u.staticFnc1()
