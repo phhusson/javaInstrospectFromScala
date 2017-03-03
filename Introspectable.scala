@@ -3,6 +3,10 @@ package me.phh.introspect
 import scala.language.dynamics
 
 object Introspectable {
+  def getAllInterfaces(cl: Class[_]): List[Class[_]] = {
+    val l = cl.getInterfaces.toList
+    l ++ l.flatMap(i => getAllInterfaces(i))
+  }
   def possibleArgsType(args: Any*): List[List[Class[_]]] = args.toList.map({
     //TODO: Other types
     case o: Integer => List(classOf[Int], classOf[java.lang.Integer]);
@@ -16,7 +20,7 @@ object Introspectable {
     case o: AnyRef => {
       //Always list first children-most type, then parent type, then interfaces
       val cl = o.getClass
-      val interfaces = cl.getInterfaces.toList
+      val interfaces = getAllInterfaces(cl)
       val uppers = Iterator.iterate[Class[_]](cl)( _.getSuperclass).takeWhile( _ != null).toList
       uppers ++ interfaces
     }

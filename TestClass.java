@@ -3,6 +3,17 @@ package me.phh.introspect;
 interface TotoInterface {
 	public int val();
 };
+
+interface TotoInterface2 extends TotoInterface {
+	public int to();
+};
+
+class TestClass2 implements TotoInterface2 {
+	public TestClass2() { }
+	public int to() { return 0; }
+	public int val() { return 0; }
+}
+
 public class TestClass implements TotoInterface {
 	public String totoStr = "titi";
 

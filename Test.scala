@@ -18,6 +18,11 @@ object Test {
     o.totoStr = "tata"
     if(o.totoStr != "tata") throw new Exception();
   }
+  def runTestInterfaces() {
+    val o = new Introspectable(Introspectable.create("me.phh.introspect.TestClass"))
+    val o2 = Introspectable.create("me.phh.introspect.TestClass2")
+    o.testInterface(o2)
+  }
   def main(args: Array[String]) {
     val t = new TestClass()
     runTestOn(t)
@@ -29,6 +34,8 @@ object Test {
     runTestOn(t3)
 
     if(new Introspectable(Class.forName("me.phh.introspect.TestClass")).staticFnc1() != 4) throw new Exception()
+
+    runTestInterfaces()
 
     try {
       new Introspectable(t3).thisfunctiondoesntexist()
