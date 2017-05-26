@@ -17,6 +17,7 @@ object Introspectable {
     case o: Float => List(classOf[Float], classOf[java.lang.Float]);
     case o: Double => List(classOf[Double], classOf[java.lang.Double]);
     //case o: Char => List(classOf[Char], classOf[java.lang.Char]); // This boxed type doesn't exist...
+    case c: Class[_] => List(c)
     case o: AnyRef => {
       //Always list first children-most type, then parent type, then interfaces
       val cl = o.getClass
@@ -50,6 +51,7 @@ object Introspectable {
     val constructor = c.getConstructor(prototype.get:_*)
 
     val newArgs: Seq[AnyRef] = selfExtracted.map({
+      case c: Class[_] => null
       //Every cases actually goes into AnyRef because of implicit boxing
       case o: AnyRef => o
       case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }
@@ -98,6 +100,7 @@ class Introspectable(val self: AnyRef) extends Dynamic {
         val method = c.getMethod(fnc, prototype.get:_*)
 
         val newArgs: Seq[AnyRef] = selfExtracted.map({
+          case c: Class[_] => null
           //Every cases actually goes into AnyRef because of implicit boxing
           case o: AnyRef => o
           case _ => { throw new Exception("Oopps, this shouldn't happen..."); null }

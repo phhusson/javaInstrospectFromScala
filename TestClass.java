@@ -42,4 +42,10 @@ public class TestClass implements TotoInterface {
 	public static int staticFnc1() {
 		return 4;
 	}
+
+	public boolean testNull(String toto) throws Exception {
+		if(toto == null)
+			return true;
+		throw new Exception();
+	}
 } 

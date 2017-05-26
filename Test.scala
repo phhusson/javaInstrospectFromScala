@@ -17,6 +17,8 @@ object Test {
     if(o.totoStr != "titi") throw new Exception();
     o.totoStr = "tata"
     if(o.totoStr != "tata") throw new Exception();
+
+    o.testNull(classOf[String])
   }
   def runTestInterfaces() {
     val o = new Introspectable(Introspectable.create("me.phh.introspect.TestClass"))

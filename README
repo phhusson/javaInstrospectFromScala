@@ -19,3 +19,6 @@ u.clearLock(false)
 If you want to call a static function, create an Introspectable and pass a Class to it like this:
 val u = new Introspectable(Class.forName("me.phh.introspect.TestClass"))
 val res = u.staticFnc1()
+
+If you need to give a function a null pointer, specify instead the class of the null:
+fnc(classOf[String])
