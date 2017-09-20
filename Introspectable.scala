@@ -73,7 +73,7 @@ class Introspectable(val self: AnyRef) extends Dynamic {
     }
 
   def field(s: String) = {
-    val f = c.getField(s)
+    val f = c.getDeclaredField(s)
     f.setAccessible(true)
     f
   }
@@ -93,11 +93,11 @@ class Introspectable(val self: AnyRef) extends Dynamic {
     })
     val possibles = Introspectable.possiblePrototypes(selfExtracted:_*)
     val prototype = possibles
-      .find( proto => try { c.getMethod(fnc, proto:_*); true } catch { case e: Exception => false })
+      .find( proto => try { c.getDeclaredMethod(fnc, proto:_*); true } catch { case e: Exception => false })
     prototype match {
       case None => throw new java.lang.NoSuchMethodException(); null
       case Some(proto) => {
-        val method = c.getMethod(fnc, prototype.get:_*)
+        val method = c.getDeclaredMethod(fnc, prototype.get:_*)
 
         val newArgs: Seq[AnyRef] = selfExtracted.map({
           case c: Class[_] => null
